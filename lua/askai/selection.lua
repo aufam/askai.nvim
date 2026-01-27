@@ -10,7 +10,6 @@ local M = {}
 
 ---@return Selection?
 function M.get_visual_selection_with_range()
-	vim.notify("get_visual_selection_with_range begin", vim.log.levels.INFO)
 	local bufnr = 0
 
 	-- Marks '< and '>
