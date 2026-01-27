@@ -1,5 +1,5 @@
-local config = require("ai_popup.config")
-local ui = require("ai_popup.ui")
+local config = require("askai.config")
+local ui = require("askai.ui")
 
 local M = {}
 

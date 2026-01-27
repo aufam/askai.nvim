@@ -1,7 +1,7 @@
-local gemini = require("ai_popup.gemini")
-local openai = require("ai_popup.openai")
-local config = require("ai_popup.config")
-local selection = require("ai_popup.selection")
+local gemini = require("askai.gemini")
+local openai = require("askai.openai")
+local config = require("askai.config")
+local selection = require("askai.selection")
 
 local M = {}
 

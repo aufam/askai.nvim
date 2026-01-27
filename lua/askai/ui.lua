@@ -31,11 +31,11 @@ function M.open(response, sel)
 		height = height,
 		style = "minimal",
 		border = "rounded",
-		title = { { " AI Response  [q] quit  [y] yank  [r] replace ", "AIPopupTitle" } },
+		title = { { " AI Response  [q] quit  [y] yank  [r] replace ", "AskAITitle" } },
 		title_pos = "center",
 	})
 
-	vim.api.nvim_set_hl(0, "AIPopupTitle", { bold = true })
+	vim.api.nvim_set_hl(0, "AskAITitle", { bold = true })
 	vim.bo[buf].filetype = "markdown"
 	vim.bo[buf].bufhidden = "wipe"
 	vim.bo[buf].modifiable = false
