@@ -1,11 +1,15 @@
 local config = require("ai_popup.config")
+local ui = require("ai_popup.ui")
 
 local M = {}
 
-function M.request(prompt, callback)
+---@param sel Selection
+---@param user_input string
+function M.request(sel, user_input)
 	local api_key = os.getenv("GEMINI_API_KEY")
 	local model = config.options.gemini.model
 	local version = config.options.gemini.version
+	local prompt = config.options.prompt .. "\n" .. user_input .. "\n\n" .. sel.text
 
 	if not api_key then
 		vim.notify("GEMINI_API_KEY not set", vim.log.levels.ERROR)
@@ -55,7 +59,7 @@ function M.request(prompt, callback)
 			local error = decoded.error and decoded.error.message
 
 			if text then
-				callback(vim.split(text, "\n", { plain = true }))
+				ui.open(text, sel)
 			elseif error then
 				vim.notify("Gemini response error: " .. error, vim.log.levels.ERROR)
 			end

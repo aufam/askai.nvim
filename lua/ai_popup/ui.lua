@@ -1,9 +1,5 @@
 local M = {}
 
-local buf, win
-local response_lines = {}
-local on_replace
-
 local function compute_size(lines)
 	local max_width = 0
 	for _, l in ipairs(lines) do
@@ -16,17 +12,18 @@ local function compute_size(lines)
 	return width, height
 end
 
-function M.open(lines, opts)
-	opts = opts or {}
-	on_replace = opts.on_replace
-	response_lines = lines
+---@param response string
+---@param sel Selection
+function M.open(response, sel)
+	local lines = vim.split(response, "\n", { plain = true })
+	local parent_buffer_id = vim.api.nvim_get_current_buf()
 
-	buf = vim.api.nvim_create_buf(false, true)
+	local buf = vim.api.nvim_create_buf(false, true)
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
 	local width, height = compute_size(lines)
 
-	win = vim.api.nvim_open_win(buf, true, {
+	local win = vim.api.nvim_open_win(buf, true, {
 		relative = "cursor",
 		row = 1,
 		col = 0,
@@ -48,15 +45,13 @@ function M.open(lines, opts)
 
 	-- yank
 	vim.keymap.set("n", "y", function()
-		vim.fn.setreg("+", table.concat(response_lines, "\n"))
+		vim.fn.setreg("+", table.concat(lines, "\n"))
 		vim.notify("AI response yanked", vim.log.levels.INFO)
 	end, { buffer = buf })
 
 	-- replace
 	vim.keymap.set("n", "r", function()
-		if on_replace then
-			on_replace(response_lines)
-		end
+		vim.api.nvim_buf_set_lines(parent_buffer_id, sel.range[1] - 1, sel.range[2], false, lines)
 		vim.cmd("bd!")
 	end, { buffer = buf })
 end

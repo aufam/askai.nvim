@@ -1,20 +1,30 @@
 local config = require("ai_popup.config")
+local ui = require("ai_popup.ui")
 
 local M = {}
 
-function M.request(prompt, callback)
+---@param sel Selection
+---@param user_input string
+function M.request(sel, user_input)
 	local openai = config.options.openai
-	local api_key = os.getenv(openai.api_key_env_name)
+	if openai == nil then
+		vim.notify("openai is not defined", vim.log.levels.ERROR)
+		return
+	end
 
+	local api_key = os.getenv(openai.api_key_env_name)
 	if not api_key then
 		vim.notify(openai.api_key_env_name .. " not set", vim.log.levels.ERROR)
 		return
 	end
 
+	local prompt = config.options.prompt .. "\n" .. user_input .. "\n\n" .. sel.text
 	local body = vim.fn.json_encode({
 		model = openai.model,
-		messages = { role = "system", content = "You are a helpful assistant." },
-		{ role = "user", content = prompt },
+		messages = {
+			{ role = "system", content = openai.system_role },
+			{ role = "user", content = prompt },
+		},
 	})
 
 	local cmd = {
@@ -22,7 +32,7 @@ function M.request(prompt, callback)
 		"-s",
 		"-X",
 		"POST",
-		"https://" .. openai.hostname .. "/" .. openai.version .. "/chat/completions",
+		openai.url,
 		"-H",
 		"Content-Type: application/json",
 		"-H",
@@ -52,7 +62,7 @@ function M.request(prompt, callback)
 			local error = decoded.error and decoded.error.message
 
 			if text then
-				callback(vim.split(text, "\n", { plain = true }))
+				ui.open(text, sel)
 			elseif error then
 				vim.notify("OpenAI response error: " .. error, vim.log.levels.ERROR)
 			end
