@@ -1,6 +1,7 @@
 local config = require("askai.config")
 local ui = require("askai.ui")
 
+---@type AskAIProvider
 local M = {}
 
 ---@param sel Selection

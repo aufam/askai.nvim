@@ -20,6 +20,7 @@ function M.get_visual_selection_with_range()
 	local le, ce = end_pos[1], end_pos[2]
 
 	if ls == 0 or le == 0 then
+		vim.notify("No visual selection found", vim.log.levels.ERROR)
 		return nil
 	end
 
@@ -29,6 +30,7 @@ function M.get_visual_selection_with_range()
 
 	local lines = vim.api.nvim_buf_get_lines(bufnr, start_row, end_row + 1, false)
 	if #lines == 0 then
+		vim.notify("No visual selection found", vim.log.levels.ERROR)
 		return nil
 	end
 

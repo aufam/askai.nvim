@@ -1,7 +1,9 @@
 local M = {}
 
+local title = " AI Response  [q] quit  [y] yank  [r] replace "
+
 local function compute_size(lines)
-	local max_width = 0
+	local max_width = vim.fn.strdisplaywidth(title)
 	for _, l in ipairs(lines) do
 		max_width = math.max(max_width, vim.fn.strdisplaywidth(l))
 	end
@@ -31,7 +33,7 @@ function M.open(response, sel)
 		height = height,
 		style = "minimal",
 		border = "rounded",
-		title = { { " AI Response  [q] quit  [y] yank  [r] replace ", "AskAITitle" } },
+		title = { { title, "AskAITitle" } },
 		title_pos = "center",
 	})
 

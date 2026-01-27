@@ -2,6 +2,7 @@ local M = {}
 
 ---@alias AskAIConfigGemini {model: string, version: "v1" | "v1beta"}
 ---@alias AskAIConfigOpenAI {url: string, model: string, api_key_env_name: string, system_role: string}
+---@alias AskAIProvider {request: function}
 
 ---@class AskAIConfig
 ---@field prompt string
