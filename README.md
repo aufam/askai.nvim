@@ -49,7 +49,7 @@ require("askai").setup({
     version = "v1",
   },
   openai = {
-    url = "https://api.openai.com/v1/chat/completion",
+    url = "https://api.openai.com/v1/chat/completions",
     model = "gpt-4o-mini",
     api_key_env_name = "OPENAI_API_KEY",
     system_role = "You are a helpful assistant.",
@@ -88,7 +88,7 @@ export GEMINI_API_KEY=your_api_key
 ```lua
 require("askai").setup({
   openai = {
-    url = "https://api.openai.com/v1/chat/completion",
+    url = "https://api.openai.com/v1/chat/completions",
     model = "gpt-4o-mini",
   },
 })
@@ -103,7 +103,7 @@ require("askai").setup({
 ```lua
 require("askai").setup({
   openai = {
-    url = "https://api.deepseek.com/chat/completion",
+    url = "https://api.deepseek.com/chat/completions",
     model = "deepseek-chat",
     api_key_env_name = "DEEPSEEK_API_KEY",
   },

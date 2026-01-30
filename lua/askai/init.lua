@@ -42,11 +42,14 @@ function M.setup(opts)
 			config.options.provider = cmd.args
 			print("Current AI provider: " .. config.options.provider)
 		else
-			vim.api.nvim_echo({ "Unknown provider: " .. cmd.args }, false, { err = true })
+			vim.api.nvim_echo({ { "Unknown provider: " .. cmd.args } }, false, { err = true })
 		end
 	end, {
 		nargs = "?",
-		desc = "Get or set the current AI model",
+		desc = "Get or set the current AI provider",
+		complete = function()
+			return { "gemini", "openai", "anthropic" }
+		end,
 	})
 end
 

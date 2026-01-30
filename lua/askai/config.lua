@@ -23,7 +23,7 @@ local default_gemini = {
 
 ---@type AskAIConfigOpenAI
 local default_openai = {
-	url = "https://api.openai.com/v1/chat/completion",
+	url = "https://api.openai.com/v1/chat/completions",
 	model = "gpt-4o-mini",
 	api_key_env_name = "OPENAI_API_KEY",
 	system_role = "You are a helpful assistant.",
