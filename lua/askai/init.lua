@@ -1,5 +1,6 @@
 local gemini = require("askai.gemini")
 local openai = require("askai.openai")
+local anthropic = require("askai.anthropic")
 local config = require("askai.config")
 local selection = require("askai.selection")
 
@@ -38,7 +39,8 @@ function M.setup(opts)
 		if cmd.args == "" then
 			-- get
 			print("Current AI provider: " .. config.options.provider)
-		elseif cmd.args == "gemini" or cmd.args == "openai" then
+		elseif cmd.args == "gemini" or cmd.args == "openai" or cmd.args == "anthropic" then
+			-- set
 			config.options.provider = cmd.args
 			print("Current AI provider: " .. config.options.provider)
 		else
@@ -58,6 +60,7 @@ function M.get_provider()
 	local providers = {
 		gemini = gemini,
 		openai = openai,
+		anthropic = anthropic,
 	}
 	local provider = providers[config.options.provider]
 
@@ -89,6 +92,7 @@ function M.get_model()
 	local models = {
 		gemini = config.options.gemini.model,
 		openai = config.options.openai.model,
+		anthropic = config.options.anthropic.model,
 	}
 	local model = models[config.options.provider]
 
@@ -106,6 +110,8 @@ function M.set_model(new_model)
 		config.options.gemini.model = new_model
 	elseif config.options.provider == "openai" then
 		config.options.openai.model = new_model
+	elseif config.options.provider == "anthropic" then
+		config.options.anthropic.model = new_model
 	else
 		return false
 	end

@@ -2,7 +2,7 @@
 
 A lightweight Neovim plugin to ask AI questions directly about **visual selections** and show the response in a popup window.
 
-Supports **Gemini**, **OpenAI**, and **OpenAI-compatible APIs** (e.g. DeepSeek).
+Supports **Gemini**, **OpenAI**, **Anthropic**, and **OpenAI-compatible APIs** (e.g. DeepSeek).
 
 
 ## 📦 Installation
@@ -15,7 +15,7 @@ Using **lazy.nvim**:
   "aufam/askai.nvim",
   config = function()
     require("askai").setup({
-      provider = "gemini", -- gemini or openai
+      provider = "gemini", -- "gemini"|"openai"|"anthropic"
     })
 
     vim.keymap.set("v", "<leader>ai", ":AskAI ", { desc = "askai: Ask AI about visual selections" })
@@ -54,6 +54,11 @@ require("askai").setup({
     api_key_env_name = "OPENAI_API_KEY",
     system_role = "You are a helpful assistant.",
   },
+  anthropic = {
+	anthropic_version = "2023-06-01",
+	model = "claude-sonnet-4-5",
+	max_tokens = 128,
+  }
 })
 
 ```
@@ -69,18 +74,9 @@ require("askai").setup({
 require("askai").setup({
   gemini = {
     model = "gemini-2.5-flash-lite",
-    version = "v1",
   },
 })
 ```
-
-Make sure your Gemini API key is available in your environment:
-
-```sh
-export GEMINI_API_KEY=your_api_key
-```
-
----
 
 
 ### OpenAI
@@ -88,14 +84,11 @@ export GEMINI_API_KEY=your_api_key
 ```lua
 require("askai").setup({
   openai = {
-    url = "https://api.openai.com/v1/chat/completions",
     model = "gpt-4o-mini",
   },
 })
 
 ```
-
----
 
 
 ### DeepSeek
@@ -111,6 +104,17 @@ require("askai").setup({
 
 ```
 
+
+### Anthropic
+
+```lua
+require("askai").setup({
+  anthropic = {
+	model = "claude-sonnet-4-5",
+  },
+})
+
+```
 
 ---
 
