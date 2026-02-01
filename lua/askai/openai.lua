@@ -42,8 +42,13 @@ function M.request(sel, user_input)
 		body,
 	}
 
+	vim.cmd('echo "Thinking..."')
+
 	vim.fn.jobstart(cmd, {
 		stdout_buffered = true,
+		on_exit = function()
+			vim.cmd('echo ""')
+		end,
 		on_stdout = function(_, data)
 			if not data or not data[1] then
 				return
