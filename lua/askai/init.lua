@@ -14,44 +14,120 @@ function M.setup(opts)
 	end, {
 		nargs = "*",
 		range = true,
-		desc = "Ask AI using visual selection",
+		desc = "askai: Ask AI using visual selection",
 	})
 
 	vim.api.nvim_create_user_command("AskAIModel", function(cmd)
-		if cmd.args == "" then
-			-- get
-			local model = M.get_model()
-			if model then
-				print("Current AI model: " .. model)
-			end
-		else
-			-- set
-			if M.set_model(cmd.args) then
-				print("AI model set to: " .. cmd.args)
-			end
+		if cmd.args ~= "" and not M.set_model(cmd.args) then
+			vim.api.nvim_echo({ { "Unknown model: " .. cmd.args } }, false, { err = true })
 		end
+		print("Current AI model: " .. M.get_model())
 	end, {
 		nargs = "?",
-		desc = "Get or set the current AI model",
+		desc = "askai: Get or set the current AI model",
 	})
 
 	vim.api.nvim_create_user_command("AskAIProvider", function(cmd)
-		if cmd.args == "" then
-			-- get
-			print("Current AI provider: " .. config.options.provider)
-		elseif cmd.args == "gemini" or cmd.args == "openai" or cmd.args == "anthropic" then
-			-- set
+		if cmd.args == "gemini" or cmd.args == "openai" or cmd.args == "anthropic" then
 			config.options.provider = cmd.args
-			print("Current AI provider: " .. config.options.provider)
-		else
+		elseif cmd.args ~= "" then
 			vim.api.nvim_echo({ { "Unknown provider: " .. cmd.args } }, false, { err = true })
 		end
+		print("Current AI provider: " .. config.options.provider)
 	end, {
 		nargs = "?",
 		desc = "Get or set the current AI provider",
 		complete = function()
 			return { "gemini", "openai", "anthropic" }
 		end,
+	})
+
+	vim.api.nvim_create_user_command("AskAIGeminiVersion", function(cmd)
+		if cmd.args ~= "" then
+			config.options.gemini.version = cmd.args
+		end
+		print("Current Gemini version: " .. config.options.gemini.version)
+	end, {
+		nargs = "?",
+		desc = "Get or set the current AI provider",
+		complete = function()
+			return { "gemini", "openai", "anthropic" }
+		end,
+	})
+
+	vim.api.nvim_create_user_command("AskAIGeminiVersion", function(cmd)
+		if cmd.args ~= "" then
+			config.options.gemini.version = cmd.args
+		end
+		print("Current Gemini version: " .. config.options.gemini.version)
+	end, {
+		nargs = "?",
+		desc = "Get or set the current Gemini API version",
+	})
+
+	vim.api.nvim_create_user_command("AskAIOpenAIURL", function(cmd)
+		if cmd.args ~= "" then
+			config.options.openai.url = cmd.args
+		end
+		print("Current OpenAI URL: " .. config.options.openai.url)
+	end, {
+		nargs = "?",
+		desc = "Get or set the current OpenAI URL",
+	})
+
+	vim.api.nvim_create_user_command("AskAIOpenAIAPIKeyEnvName", function(cmd)
+		if cmd.args ~= "" then
+			config.options.openai.api_key_env_name = cmd.args
+		end
+		print("Current OpenAI API key env name: " .. config.options.openai.api_key_env_name)
+	end, {
+		nargs = "?",
+		desc = "Get or set the current OpenAI API key env name",
+	})
+
+	vim.api.nvim_create_user_command("AskAIOpenAISystemRole", function(cmd)
+		if cmd.args ~= "" then
+			config.options.openai.system_role = cmd.args
+		end
+		print("Current OpenAI system role: " .. config.options.openai.system_role)
+	end, {
+		nargs = "?",
+		desc = "Get or set the current OpenAI system role",
+	})
+
+	vim.api.nvim_create_user_command("AskAIAnthropicVersion", function(cmd)
+		if cmd.args ~= "" then
+			config.options.anthropic.anthropic_version = cmd.args
+		end
+		print("Current Anthropic version: " .. config.options.anthropic.anthropic_version)
+	end, {
+		nargs = "?",
+		desc = "Get or set the current Anthropic version",
+	})
+
+	vim.api.nvim_create_user_command("AskAIAnthropicVersion", function(cmd)
+		if cmd.args ~= "" then
+			config.options.anthropic.anthropic_version = cmd.args
+		end
+		print("Current Anthropic version: " .. config.options.anthropic.anthropic_version)
+	end, {
+		nargs = "?",
+		desc = "Get or set the current Anthropic version",
+	})
+
+	vim.api.nvim_create_user_command("AskAIAnthropicMaxTokens", function(cmd)
+		if cmd.args ~= "" then
+			local n = tonumber(cmd.args)
+			if n then
+				config.options.anthropic.max_tokens = n
+			else
+				vim.api.nvim_echo({ { "Canot convert to number: " .. cmd.args } }, false, { err = true })
+			end
+		end
+		print("Current Anthropic version: " .. config.options.anthropic.max_tokens)
+	end, {
+		nargs = "?",
+		desc = "Get or set the current Anthropic version",
 	})
 end
 
