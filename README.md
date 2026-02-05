@@ -2,7 +2,7 @@
 
 A lightweight Neovim plugin to ask AI questions directly about **visual selections** and show the response in a popup window.
 
-Supports **Gemini**, **OpenAI**, **Anthropic**, and **OpenAI-compatible APIs** (e.g. DeepSeek).
+Supports **Gemini**, **OpenAI**, **Anthropic**, and **OpenAI-compatible APIs** (e.g. DeepSeek, Moonshot, etc).
 
 
 ## 📦 Installation
@@ -18,7 +18,7 @@ Using **lazy.nvim**:
       provider = "gemini", -- "gemini"|"openai"|"anthropic"
     })
 
-    vim.keymap.set("v", "<leader>ai", ":AskAI ", { desc = "askai: Ask AI about visual selections" })
+    vim.keymap.set({ "n", "v" }, "<leader>ai", ":AskAI ", { desc = "askai: Ask AI about visual selections" })
   end,
 }
 
