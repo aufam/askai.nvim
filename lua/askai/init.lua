@@ -9,8 +9,9 @@ local M = {}
 function M.setup(opts)
 	config.setup(opts)
 
+	---@param cmd vim.api.keyset.create_user_command.command_args
 	vim.api.nvim_create_user_command("AskAI", function(cmd)
-		M.askai(cmd.args)
+		M.askai(cmd.args, cmd.range)
 	end, {
 		nargs = "*",
 		range = true,
@@ -149,8 +150,9 @@ function M.get_provider()
 end
 
 ---@param user_input string
-function M.askai(user_input)
-	local sel = selection.get_visual_selection_with_range()
+---@param range integer
+function M.askai(user_input, range)
+	local sel = selection.get_visual_selection_with_range(range)
 	if not sel then
 		return
 	end

@@ -60,7 +60,14 @@ function M.open(response, sel)
 
 	-- replace
 	vim.keymap.set("n", "r", function()
-		vim.api.nvim_buf_set_lines(parent_buffer_id, sel.range[1] - 1, sel.range[2], false, lines)
+		vim.api.nvim_buf_set_text(
+			parent_buffer_id,
+			sel.range.start_row,
+			sel.range.start_col,
+			sel.range.end_row,
+			sel.range.end_col,
+			lines
+		)
 		vim.cmd("bd!")
 	end, { buffer = buf })
 end
