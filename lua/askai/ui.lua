@@ -18,13 +18,20 @@ end
 ---@param sel Selection
 function M.open(response, sel)
 	local lines = vim.split(response, "\n", { plain = true })
-	local parent_buffer_id = vim.api.nvim_get_current_buf()
 
+	local lang = lines[1]:match("^```(%w+)")
+	if lang and lines[#lines] == "```" then
+		table.remove(lines, 1)
+		table.remove(lines, #lines)
+	else
+		lang = "markdown"
+	end
+
+	local parent_buffer_id = vim.api.nvim_get_current_buf()
 	local buf = vim.api.nvim_create_buf(false, true)
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
 
 	local width, height = compute_size(lines)
-
 	local win = vim.api.nvim_open_win(buf, true, {
 		relative = "cursor",
 		row = 1,
@@ -38,7 +45,7 @@ function M.open(response, sel)
 	})
 
 	vim.api.nvim_set_hl(0, "AskAITitle", { bold = true })
-	vim.bo[buf].filetype = "markdown"
+	vim.bo[buf].filetype = lang
 	vim.bo[buf].bufhidden = "wipe"
 	vim.bo[buf].modifiable = false
 
