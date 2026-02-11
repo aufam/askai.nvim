@@ -28,6 +28,16 @@ function M.setup(opts)
 		desc = "askai: Get or set the current AI model",
 	})
 
+	vim.api.nvim_create_user_command("AskAIPrompt", function(cmd)
+		if cmd.args ~= "" then
+			config.options.prompt = cmd.args
+		end
+		print("Current prompt: " .. config.options.prompt)
+	end, {
+		nargs = "?",
+		desc = "askai: Get or set default prompt",
+	})
+
 	vim.api.nvim_create_user_command("AskAIProvider", function(cmd)
 		if cmd.args == "gemini" or cmd.args == "openai" or cmd.args == "anthropic" then
 			config.options.provider = cmd.args
