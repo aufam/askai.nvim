@@ -5,6 +5,10 @@ A lightweight Neovim plugin to ask AI questions directly about **visual selectio
 Supports **Gemini**, **OpenAI**, **Anthropic**, and **OpenAI-compatible APIs** (e.g. DeepSeek, Moonshot, etc).
 
 
+![demo1](1.gif)
+![demo2](2.gif)
+
+
 ## 📦 Installation
 
 Using **lazy.nvim**:
