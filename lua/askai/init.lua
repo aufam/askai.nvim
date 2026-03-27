@@ -1,6 +1,7 @@
 local gemini = require("askai.gemini")
 local openai = require("askai.openai")
 local anthropic = require("askai.anthropic")
+local ollama = require("askai.ollama")
 local config = require("askai.config")
 local selection = require("askai.selection")
 
@@ -116,16 +117,6 @@ function M.setup(opts)
 		desc = "Get or set the current Anthropic version",
 	})
 
-	vim.api.nvim_create_user_command("AskAIAnthropicVersion", function(cmd)
-		if cmd.args ~= "" then
-			config.options.anthropic.anthropic_version = cmd.args
-		end
-		print("Current Anthropic version: " .. config.options.anthropic.anthropic_version)
-	end, {
-		nargs = "?",
-		desc = "Get or set the current Anthropic version",
-	})
-
 	vim.api.nvim_create_user_command("AskAIAnthropicMaxTokens", function(cmd)
 		if cmd.args ~= "" then
 			local n = tonumber(cmd.args)
@@ -140,6 +131,16 @@ function M.setup(opts)
 		nargs = "?",
 		desc = "Get or set the current Anthropic version",
 	})
+
+	vim.api.nvim_create_user_command("AskAIOllamaURL", function(cmd)
+		if cmd.args ~= "" then
+			config.options.ollama.url = cmd.args
+		end
+		print("Current Ollama URL: " .. config.options.ollama.url)
+	end, {
+		nargs = "?",
+		desc = "Get or set the current Ollama URL",
+	})
 end
 
 ---@return AskAIProvider | nil
@@ -148,6 +149,7 @@ function M.get_provider()
 		gemini = gemini,
 		openai = openai,
 		anthropic = anthropic,
+		ollama = ollama,
 	}
 	local provider = providers[config.options.provider]
 
@@ -181,6 +183,7 @@ function M.get_model()
 		gemini = config.options.gemini.model,
 		openai = config.options.openai.model,
 		anthropic = config.options.anthropic.model,
+		ollama = config.options.ollama.model,
 	}
 	local model = models[config.options.provider]
 
@@ -200,6 +203,8 @@ function M.set_model(new_model)
 		config.options.openai.model = new_model
 	elseif config.options.provider == "anthropic" then
 		config.options.anthropic.model = new_model
+	elseif config.options.provider == "ollama" then
+		config.options.ollama.model = new_model
 	else
 		return false
 	end
