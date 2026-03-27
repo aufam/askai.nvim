@@ -7,7 +7,7 @@ local M = {}
 ---@param sel Selection
 ---@param user_input string
 function M.request(sel, user_input)
-	local api_key = os.getenv("OLLAMA_API_KEY")
+	local api_key = os.getenv("OLLAMA_API_KEY") or ""
 	local url = config.options.ollama.url
 	local model = config.options.ollama.model
 	if not model then
