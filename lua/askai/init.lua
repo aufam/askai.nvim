@@ -40,7 +40,7 @@ function M.setup(opts)
 	})
 
 	vim.api.nvim_create_user_command("AskAIProvider", function(cmd)
-		if cmd.args == "gemini" or cmd.args == "openai" or cmd.args == "anthropic" then
+		if cmd.args == "gemini" or cmd.args == "openai" or cmd.args == "anthropic" or cmd.args == "ollama" then
 			config.options.provider = cmd.args
 		elseif cmd.args ~= "" then
 			vim.api.nvim_echo({ { "Unknown provider: " .. cmd.args } }, false, { err = true })

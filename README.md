@@ -2,7 +2,7 @@
 
 A lightweight Neovim plugin to ask AI questions directly about **visual selections** and show the response in a popup window.
 
-Supports **Gemini**, **OpenAI**, **Anthropic**, and **OpenAI-compatible APIs** (e.g. DeepSeek, Moonshot, etc).
+Supports **Gemini**, **OpenAI**, **Anthropic**, **Ollama**, and **OpenAI-compatible APIs** (e.g. DeepSeek, Moonshot, etc).
 
 
 ![demo1](1.gif)
@@ -19,7 +19,8 @@ Using **lazy.nvim**:
   "aufam/askai.nvim",
   config = function()
     require("askai").setup({
-      provider = "gemini", -- "gemini"|"openai"|"anthropic"
+      provider = "gemini", -- "gemini"|"openai"|"anthropic"|"ollama"
+      model = "your-model-name", -- depends on provider
     })
 
     vim.keymap.set({ "n", "v" }, "<leader>ai", ":AskAI ", { desc = "askai: Ask AI about visual selections" })
@@ -62,7 +63,11 @@ require("askai").setup({
 	anthropic_version = "2023-06-01",
 	model = "claude-sonnet-4-5",
 	max_tokens = 128,
-  }
+  },
+  ollama = {
+    url = "http://localhost:11434/api/generate",
+	model = "your-ollama-model",
+  },
 })
 
 ```
@@ -119,6 +124,19 @@ require("askai").setup({
 })
 
 ```
+
+
+### Ollama
+
+```lua
+require("askai").setup({
+  ollama = {
+	model = "qwen2.5:0.5b",
+  },
+})
+
+```
+
 
 ---
 
