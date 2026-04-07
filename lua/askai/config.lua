@@ -8,6 +8,7 @@ local M = {}
 
 ---@class AskAIConfig
 ---@field prompt string
+---@field model string?
 ---@field provider? "gemini" | "openai" | "anthropic" | "ollama"
 ---@field gemini AskAIConfigGemini?
 ---@field openai AskAIConfigOpenAI?
@@ -50,6 +51,7 @@ local default_ollama = {
 function M.setup(opts)
 	M.options = vim.tbl_deep_extend("force", defaults, opts or {})
 	if M.options.provider == nil then
+		-- If no provider is specified, try to infer it from the presence of provider-specific options
 		if M.options.gemini then
 			M.options.provider = "gemini"
 		elseif M.options.openai then
@@ -60,6 +62,17 @@ function M.setup(opts)
 			M.options.provider = "ollama"
 		else
 			M.options.provider = "gemini"
+		end
+	elseif M.options.model ~= nil then
+		-- If a model and provider are specified at the top level, set it for the selected provider
+		if M.options.provider == "gemini" then
+			default_gemini.model = M.options.model
+		elseif M.options.provider == "openai" then
+			default_openai.model = M.options.model
+		elseif M.options.provider == "anthropic" then
+			default_anthropic.model = M.options.model
+		elseif M.options.provider == "ollama" then
+			default_ollama.model = M.options.model
 		end
 	end
 
