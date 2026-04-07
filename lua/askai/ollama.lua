@@ -60,7 +60,7 @@ function M.request(sel, user_input)
 			if text then
 				ui.open(text, sel)
 			elseif error then
-				vim.notify("Gemini response error: " .. error, vim.log.levels.ERROR)
+				vim.notify("Ollama response error: " .. error, vim.log.levels.ERROR)
 			end
 		end,
 	})

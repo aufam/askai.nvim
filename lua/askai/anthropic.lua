@@ -22,7 +22,7 @@ function M.request(sel, user_input)
 	local prompt = config.options.prompt .. "\n" .. user_input .. "\n\n" .. sel.text
 	local body = vim.fn.json_encode({
 		model = anthropic.model,
-		max_token = anthropic.max_tokens,
+		max_tokens = anthropic.max_tokens,
 		messages = {
 			{ role = "user", content = prompt },
 		},
